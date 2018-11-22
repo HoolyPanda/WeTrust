@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using ;
 
 public class Gate : MonoBehaviour {
     public string neededClass=null;
@@ -23,7 +22,7 @@ public class Gate : MonoBehaviour {
     }
     public void SendCaravan()
     {
-        print(gameObject.name+" was sended");
+        //print(gameObject.name+" was sended");
         foreach (GameObject human in caravan)
         {
             human.GetComponent<MeshRenderer>().enabled=false;
@@ -61,26 +60,26 @@ public class Gate : MonoBehaviour {
         int Meat= tribe.GetComponent<Tribe>().Meat;
         int Gold= tribe.GetComponent<Tribe>().Gold;
         int Wood= tribe.GetComponent<Tribe>().Wood;
-        print(Mathf.Abs((float)Meat-Gold));
-        print(Mathf.Abs((float)Meat-Wood));
+        //print(Mathf.Abs((float)Meat-Gold));
+        //print(Mathf.Abs((float)Meat-Wood));
         if (Mathf.Abs((float)Meat-Gold)>20|Mathf.Abs((float)Meat-Wood)>20)
         {
             if(Meat>Wood)
             {
                 if (Wood>Gold)
                 {
-                    print("Meat ovreloaded");
+                    //print("Meat ovreloaded");
                     CreateNewHuman();
                 }
             }else if (Wood>Gold)
             {
-                print("Wood overlaoded");
+                //print("Wood overlaoded");
                 GameObject newHuman =Instantiate(simpleHuman,new Vector3(2f,0.26f,2f),Quaternion.identity);
                 CreateNewHuman();
             }
             else if (Gold>=Wood)
             {
-                print("Gold overladed");
+                //print("Gold overladed");
                 CreateNewHuman();
             }
         }

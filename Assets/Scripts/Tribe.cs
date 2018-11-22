@@ -8,10 +8,12 @@ public class Tribe : MonoBehaviour {
     public int Meat= 10;
     public int Gold=10;
     public int Wood=10;
+    public int totalHumans=0;
     public int totalHunters=0;
     public int totalTraders=0;
     public int totalGatherers=0;
     public bool overloaded=false;
+    public List<GameObject> Humans=new List<GameObject>(2);
     public GameObject ui;
     
     void Start () {
@@ -26,15 +28,15 @@ public class Tribe : MonoBehaviour {
     {
         if (Meat<=0)
         {
-            print("low on meat");
+            //print("low on meat");
         }
         if (Gold<=0)
         {
-            print("low on gold");
+            //print("low on gold");
         }
         if (Wood<=0)
         {
-            print("low on wood");
+            //print("low on wood");
         }
         if(totalGatherers+totalHunters+totalTraders>=15)
         {
@@ -44,5 +46,9 @@ public class Tribe : MonoBehaviour {
     void Won()
     {
         ui.GetComponent<Text>().enabled=true;
+    }
+    void AddNewHuman()
+    {
+
     }
 }

@@ -53,8 +53,8 @@ public class ri : MonoBehaviour
     public string humanClass = null;
     public bool onGate=false;
     public bool alive=true;
-    private bool grabbed = false;
-    bool onGround=false;
+    public bool grabbed = false;
+    public bool onGround=false;
     bool gettingResourses=false;
     private Vector3 rot = new Vector3(0, 0, 0);
     int circleIteration = 0;
@@ -76,59 +76,72 @@ public class ri : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (Input.GetMouseButtonDown(0))
+        if(Input.touchCount>0)
         {
-            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            float mx;
-            float mz;
-            if (Physics.Raycast(ray, out hit))
+            if (Input.GetTouch(0).phase==TouchPhase.Began)//GetMouseButtonDown(0))
             {
-                float y = hit.point.y;
-                mx = hit.point.x;
-                mz = hit.point.z;
-                if (
-                    (Math.Abs(HumansBody.transform.position.x - hit.point.x) <= 0.25) &&
-                    (Math.Abs(HumansBody.transform.position.z - hit.point.z) <= 0.25)
-                    )
+                //ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                ray= Camera.main.ScreenPointToRay(new Vector3(Input.GetTouch(0).position.x,Input.GetTouch(0).position.y,0));
+                float mx;
+                float mz;
+                if (Physics.Raycast(ray, out hit))
                 {
-                    grabbed = true;
-                    Unfreeze();
+                    float y = hit.point.y;
+                    mx = hit.point.x;
+                    mz = hit.point.z;
+                    if (
+                        (Math.Abs(HumansBody.transform.position.x - hit.point.x) <= 0.25) &&
+                        (Math.Abs(HumansBody.transform.position.z - hit.point.z) <= 0.25)
+                        )
+                    {
+                        grabbed = true;
+                        onGround=false;
+                        Unfreeze();
+                    }
                 }
             }
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            float mx;
-            float mz;
-            if (Physics.Raycast(ray, out hit))
+            if (Input.GetTouch(0).phase==TouchPhase.Ended)//Input.GetMouseButtonUp(0))
             {
-                float y = hit.point.y;
-                mx = hit.point.x;
-                mz = hit.point.z;
-                if (
-                    (Math.Abs(HumansBody.transform.position.x - hit.point.x) <= 0.25) &&
-                    (Math.Abs(HumansBody.transform.position.z - hit.point.z) <= 0.25)
-                    )
+                //ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                //Touch touch = Input.GetTouch(0);
+                ray= Camera.main.ScreenPointToRay(new Vector3(Input.GetTouch(0).position.x,Input.GetTouch(0).position.y,0));
+                float mx;
+                float mz;
+                if (Physics.Raycast(ray, out hit))
                 {
-                    grabbed = false;
+                    float y = hit.point.y;
+                    mx = hit.point.x;
+                    mz = hit.point.z;
+                    if (
+                        (Math.Abs(HumansBody.transform.position.x - hit.point.x) <= 0.25) &&
+                        (Math.Abs(HumansBody.transform.position.z - hit.point.z) <= 0.25)
+                        )
+                    {
+                        grabbed = false;
+                        Invoke("GetOnGround()",3f);
+                    }
                 }
             }
-        }
-        if (grabbed)
-        {
-            ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit))
+            if (grabbed)
             {
-                rot.z = hit.point.z;
-                rot.x = hit.point.x;
-                transform.position = new Vector3(rot.x, 3, rot.z);
+                //ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                ray= Camera.main.ScreenPointToRay(new Vector3(Input.GetTouch(0).position.x,Input.GetTouch(0).position.y,0));
+                if (Physics.Raycast(ray, out hit))
+                {
+                    rot.z = hit.point.z;
+                    rot.x = hit.point.x;
+                    transform.position = new Vector3(rot.x, 3, rot.z);
+                }
+            }
+            else
+            {
+                RunCircle();
             }
         }
         else
-        {
-            RunCircle();
-        }
+            {
+                RunCircle();
+            }
     }
     void RunCircle()
     {
@@ -136,9 +149,8 @@ public class ri : MonoBehaviour
         {
             if (circleIteration < 36000)
             {
-                transform.position = new Vector3(totem.transform.position.x + (float)Math.Cos(circleIteration/100f),
-                transform.position.y,
-                totem.transform.position.z + (float)(Math.Sin(circleIteration/100f)));
+                HumansBody.AddForce(new Vector3(totem.transform.position.x + (float)Math.Cos(circleIteration/100f)-transform.position.x,transform.position.y,totem.transform.position.z + (float)(Math.Sin(circleIteration/100f)-transform.position.y))*5);
+                //transform.position = new Vector3(totem.transform.position.x + (float)Math.Cos(circleIteration/100f),transform.position.y,totem.transform.position.z + (float)(Math.Sin(circleIteration/100f)));
             }
             else
             {
@@ -158,8 +170,8 @@ public class ri : MonoBehaviour
                 humanClass="trader";
                 HumansBody.GetComponent<MeshRenderer>().material.color = Color.yellow;
                 tribe.GetComponent<Tribe>().totalTraders++;
-                PlusMeat=5;
                 PlusGold=10;
+                PlusMeat=5;
                 PlusWood=5;
             }
         }
@@ -210,10 +222,9 @@ public class ri : MonoBehaviour
     {
         if ((collision.gameObject.name=="Plane")&&!onGate)
         {
-            Invoke("GetOnGround",3);
+            Invoke("GetOnGround",3f);
             gettingResourses=false;
             tribe=collision.gameObject;
-            print("OnGround");
         }
     }
     void OnCollisionStay(Collision collision)
@@ -222,7 +233,7 @@ public class ri : MonoBehaviour
         {
             if(!gettingResourses)
             {
-                Invoke("DoMinusResourses",3);
+                Invoke("DoMinusResourses",3f);
                 gettingResourses=true;
             }
         }
@@ -232,7 +243,6 @@ public class ri : MonoBehaviour
         if ((collision.gameObject.name=="Plane")&&!onGate)
         {
             onGround=false;
-            print("NotOnGround");
         }
     }
     void DoMinusResourses()
@@ -254,11 +264,14 @@ public class ri : MonoBehaviour
     void GetOnGround()
     {
         onGround=true;
+        circleIteration= (int)UnityEngine.Random.Range(0,3600);
     }
     void Unfreeze()
     {
+        //GetOnGround();
+        circleIteration= (int)UnityEngine.Random.Range(0,3600);
         onGate=false;
-        HumansBody.constraints=RigidbodyConstraints.None;
-        HumansBody.constraints=RigidbodyConstraints.FreezeRotationX|RigidbodyConstraints.FreezeRotationY|RigidbodyConstraints.FreezeRotationZ;
+        //HumansBody.constraints=RigidbodyConstraints.None;
+        //HumansBody.constraints=RigidbodyConstraints.FreezeRotationX|RigidbodyConstraints.FreezeRotationY|RigidbodyConstraints.FreezeRotationZ;
     }
 }
