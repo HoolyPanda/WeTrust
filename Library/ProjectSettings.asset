@@ -155,7 +155,7 @@ PlayerSettings:
     Android: com.com
   buildNumber: {}
   AndroidBundleVersionCode: 1
-  AndroidMinSdkVersion: 26
+  AndroidMinSdkVersion: 19
   AndroidTargetSdkVersion: 26
   AndroidPreferredInstallLocation: 0
   aotOptions: 

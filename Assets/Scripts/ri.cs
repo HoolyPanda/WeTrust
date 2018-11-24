@@ -58,7 +58,7 @@ public class ri : MonoBehaviour
     bool gettingResourses=false;
     private Vector3 rot = new Vector3(0, 0, 0);
     int circleIteration = 0;
-    float circleRadius=1;
+    float circleRadius=1.5f;
     Ray ray;
     Camera Camera;
     RaycastHit hit;
@@ -67,7 +67,7 @@ public class ri : MonoBehaviour
         HumansBody = GetComponent<Rigidbody>();
         Camera = GetComponent<Camera>();
         humanClass=null;
-        gameObject.transform.Find("Mask").GetComponent<MeshRenderer>().material.color=Color.white;
+        gameObject.transform.Find("Body").GetComponent<MeshRenderer>().material.color=Color.white;
     }
     void Update()
     {
@@ -144,6 +144,15 @@ public class ri : MonoBehaviour
             if (circleIteration < 36000)
             {
                 Vector3 target=new Vector3(totem.transform.position. x+ (float)Math.Cos(circleIteration/100f)*circleRadius,transform.position.y, totem.transform.position.z+(float)(Math.Sin(circleIteration/100f)*circleRadius));
+                if(Math.Abs(target.x-transform.position.x)+Math.Abs(target.z-transform.position.z)>=0.25)
+                {
+                    //this will detect if human didnt take is positiion in circle
+                    gameObject.transform.Find("Mask").GetComponent<MeshRenderer>().material.color=Color.black;
+                }else
+                {
+                    //if human took his position
+                    gameObject.transform.Find("Mask").GetComponent<MeshRenderer>().material.color=Color.white;
+                }
                 transform.position=Vector3.MoveTowards(transform.position,target,Time.deltaTime);
             }
             else
@@ -162,7 +171,7 @@ public class ri : MonoBehaviour
             if (humanClass==null)
             {
                 humanClass="trader";
-                HumansBody.GetComponent<MeshRenderer>().material.color = Color.yellow;
+                gameObject.transform.Find("Mask").GetComponent<MeshRenderer>().material.color=Color.yellow;
                 tribe.GetComponent<Tribe>().totalTraders++;
                 PlusGold=10;
                 PlusMeat=5;
@@ -176,7 +185,7 @@ public class ri : MonoBehaviour
             if(humanClass==null)
             {
                 humanClass="hunter";
-                HumansBody.GetComponent<MeshRenderer>().material.color = Color.red;
+                gameObject.transform.Find("Body").GetComponent<MeshRenderer>().material.color=Color.red;
                 tribe.GetComponent<Tribe>().totalHunters++;
                 PlusMeat=10;
                 PlusGold=5;
@@ -190,7 +199,7 @@ public class ri : MonoBehaviour
             if(humanClass==null)
             {
                 humanClass="gatherer";
-                HumansBody.GetComponent<MeshRenderer>().material.color = Color.green;
+                gameObject.transform.Find("Body").GetComponent<MeshRenderer>().material.color=Color.green;
                 tribe.GetComponent<Tribe>().totalGatherers++;
                 PlusMeat=5;
                 PlusGold=5;
