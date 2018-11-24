@@ -58,6 +58,7 @@ public class ri : MonoBehaviour
     bool gettingResourses=false;
     private Vector3 rot = new Vector3(0, 0, 0);
     int circleIteration = 0;
+    float circleRadius=1;
     Ray ray;
     Camera Camera;
     RaycastHit hit;
@@ -66,21 +67,17 @@ public class ri : MonoBehaviour
         HumansBody = GetComponent<Rigidbody>();
         Camera = GetComponent<Camera>();
         humanClass=null;
+        gameObject.transform.Find("Mask").GetComponent<MeshRenderer>().material.color=Color.white;
     }
     void Update()
     {
-        if (humanClass==null)
-        {
-            HumansBody.GetComponent<MeshRenderer>().sharedMaterial.color = Color.white;
-        }
     }
     private void FixedUpdate()
     {
         if(Input.touchCount>0)
         {
-            if (Input.GetTouch(0).phase==TouchPhase.Began)//GetMouseButtonDown(0))
+            if (Input.GetTouch(0).phase==TouchPhase.Began)
             {
-                //ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 ray= Camera.main.ScreenPointToRay(new Vector3(Input.GetTouch(0).position.x,Input.GetTouch(0).position.y,0));
                 float mx;
                 float mz;
@@ -100,10 +97,8 @@ public class ri : MonoBehaviour
                     }
                 }
             }
-            if (Input.GetTouch(0).phase==TouchPhase.Ended)//Input.GetMouseButtonUp(0))
+            if (Input.GetTouch(0).phase==TouchPhase.Ended)
             {
-                //ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                //Touch touch = Input.GetTouch(0);
                 ray= Camera.main.ScreenPointToRay(new Vector3(Input.GetTouch(0).position.x,Input.GetTouch(0).position.y,0));
                 float mx;
                 float mz;
@@ -124,7 +119,6 @@ public class ri : MonoBehaviour
             }
             if (grabbed)
             {
-                //ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 ray= Camera.main.ScreenPointToRay(new Vector3(Input.GetTouch(0).position.x,Input.GetTouch(0).position.y,0));
                 if (Physics.Raycast(ray, out hit))
                 {
@@ -149,8 +143,8 @@ public class ri : MonoBehaviour
         {
             if (circleIteration < 36000)
             {
-                HumansBody.AddForce(new Vector3(totem.transform.position.x + (float)Math.Cos(circleIteration/100f)-transform.position.x,transform.position.y,totem.transform.position.z + (float)(Math.Sin(circleIteration/100f)-transform.position.y))*5);
-                //transform.position = new Vector3(totem.transform.position.x + (float)Math.Cos(circleIteration/100f),transform.position.y,totem.transform.position.z + (float)(Math.Sin(circleIteration/100f)));
+                Vector3 target=new Vector3(totem.transform.position. x+ (float)Math.Cos(circleIteration/100f)*circleRadius,transform.position.y, totem.transform.position.z+(float)(Math.Sin(circleIteration/100f)*circleRadius));
+                transform.position=Vector3.MoveTowards(transform.position,target,Time.deltaTime);
             }
             else
             {
