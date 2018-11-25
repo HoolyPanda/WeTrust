@@ -56,7 +56,8 @@ public class ri : MonoBehaviour
     public bool grabbed = false;
     public bool onGround=false;
     bool gettingResourses=false;
-    private Vector3 rot = new Vector3(0, 0, 0);
+    public bool reachingTarget=false;
+    private Vector3 target = new Vector3(0, 0, 0);
     int circleIteration = 0;
     float circleRadius=1.5f;
     Ray ray;
@@ -76,56 +77,55 @@ public class ri : MonoBehaviour
     {
         if(Input.touchCount>0)
         {
-            if (Input.GetTouch(0).phase==TouchPhase.Began)
+            Touch touch =Input.GetTouch(0);
+            if (touch.phase==TouchPhase.Began)
             {
-                ray= Camera.main.ScreenPointToRay(new Vector3(Input.GetTouch(0).position.x,Input.GetTouch(0).position.y,0));
-                float mx;
-                float mz;
+                ray= Camera.main.ScreenPointToRay(new Vector3(touch.position.x,touch.position.y,0));
                 if (Physics.Raycast(ray, out hit))
                 {
-                    float y = hit.point.y;
-                    mx = hit.point.x;
-                    mz = hit.point.z;
-                    if (
-                        (Math.Abs(HumansBody.transform.position.x - hit.point.x) <= 0.25) &&
-                        (Math.Abs(HumansBody.transform.position.z - hit.point.z) <= 0.25)
-                        )
+                    if (hit.collider.gameObject==this.gameObject)
                     {
+                        gameObject.transform.Find("Body").GetComponent<MeshRenderer>().material.color=Color.magenta;
                         grabbed = true;
-                        onGround=false;
+                        onGround = false;
                         Unfreeze();
                     }
                 }
             }
-            if (Input.GetTouch(0).phase==TouchPhase.Ended)
+            if ((touch.phase==TouchPhase.Moved || touch.phase==TouchPhase.Stationary)&&grabbed)
             {
-                ray= Camera.main.ScreenPointToRay(new Vector3(Input.GetTouch(0).position.x,Input.GetTouch(0).position.y,0));
-                float mx;
-                float mz;
+                ray= Camera.main.ScreenPointToRay(new Vector3(touch.position.x,touch.position.y,0));
                 if (Physics.Raycast(ray, out hit))
                 {
-                    float y = hit.point.y;
-                    mx = hit.point.x;
-                    mz = hit.point.z;
-                    if (
-                        (Math.Abs(HumansBody.transform.position.x - hit.point.x) <= 0.25) &&
-                        (Math.Abs(HumansBody.transform.position.z - hit.point.z) <= 0.25)
-                        )
+                    target.x= hit.point.x;
+                    target.y= 0.03000009f;
+                    target.z= hit.point.z;
+                    if (hit.collider.isTrigger)
                     {
-                        grabbed = false;
-                        Invoke("GetOnGround()",3f);
+                        print(hit.collider.name);
+                        target.x= hit.collider.gameObject.transform.position.x;
+                        target.y= 0.03000009f;
+                        target.z= hit.collider.gameObject.transform.position.z;
+                        //target=hit.collider.gameObject.transform.position;
                     }
                 }
             }
+            if(touch.phase==TouchPhase.Ended && grabbed)
+            {
+                grabbed = false;
+                reachingTarget=true;
+                gameObject.transform.Find("Body").GetComponent<MeshRenderer>().material.color=Color.white;
+            }
             if (grabbed)
             {
-                ray= Camera.main.ScreenPointToRay(new Vector3(Input.GetTouch(0).position.x,Input.GetTouch(0).position.y,0));
-                if (Physics.Raycast(ray, out hit))
-                {
-                    rot.z = hit.point.z;
-                    rot.x = hit.point.x;
-                    transform.position = new Vector3(rot.x, 3, rot.z);
-                }
+                //ray= Camera.main.ScreenPointToRay(new Vector3(touch.position.x,touch.position.y,0));
+                //if (Physics.Raycast(ray, out hit))
+                //{
+                    //target.z = hit.point.z;
+                    //target.x = hit.point.x;
+                    //transform.position =Vector3.MoveTowards(transform.position,new Vector3(target.x, transform.position.y, target.z),Time.deltaTime); 
+                    
+                //}
             }
             else
             {
@@ -136,15 +136,16 @@ public class ri : MonoBehaviour
             {
                 RunCircle();
             }
+        ReachPoint();
     }
     void RunCircle()
     {
-        if (onGround)
+        if (onGround&&!onGate)
         {
             if (circleIteration < 36000)
             {
-                Vector3 target=new Vector3(totem.transform.position. x+ (float)Math.Cos(circleIteration/100f)*circleRadius,transform.position.y, totem.transform.position.z+(float)(Math.Sin(circleIteration/100f)*circleRadius));
-                if(Math.Abs(target.x-transform.position.x)+Math.Abs(target.z-transform.position.z)>=0.25)
+                Vector3 circleTarget=new Vector3(totem.transform.position. x+ (float)Math.Cos(circleIteration/100f)*circleRadius,transform.position.y, totem.transform.position.z+(float)(Math.Sin(circleIteration/100f)*circleRadius));
+                if(Math.Abs(circleTarget.x-transform.position.x)+Math.Abs(circleTarget.z-transform.position.z)>=0.25)
                 {
                     //this will detect if human didnt take is positiion in circle
                     gameObject.transform.Find("Mask").GetComponent<MeshRenderer>().material.color=Color.black;
@@ -153,7 +154,7 @@ public class ri : MonoBehaviour
                     //if human took his position
                     gameObject.transform.Find("Mask").GetComponent<MeshRenderer>().material.color=Color.white;
                 }
-                transform.position=Vector3.MoveTowards(transform.position,target,Time.deltaTime);
+                transform.position=Vector3.MoveTowards(transform.position,circleTarget,Time.deltaTime);
             }
             else
             {
@@ -185,7 +186,7 @@ public class ri : MonoBehaviour
             if(humanClass==null)
             {
                 humanClass="hunter";
-                gameObject.transform.Find("Body").GetComponent<MeshRenderer>().material.color=Color.red;
+                gameObject.transform.Find("Mask").GetComponent<MeshRenderer>().material.color=Color.red;
                 tribe.GetComponent<Tribe>().totalHunters++;
                 PlusMeat=10;
                 PlusGold=5;
@@ -199,7 +200,7 @@ public class ri : MonoBehaviour
             if(humanClass==null)
             {
                 humanClass="gatherer";
-                gameObject.transform.Find("Body").GetComponent<MeshRenderer>().material.color=Color.green;
+                gameObject.transform.Find("Mask").GetComponent<MeshRenderer>().material.color=Color.green;
                 tribe.GetComponent<Tribe>().totalGatherers++;
                 PlusMeat=5;
                 PlusGold=5;
@@ -218,6 +219,7 @@ public class ri : MonoBehaviour
         {
             collision.gameObject.GetComponent<Gate>().caravan.Remove(gameObject);
             currentGate = null;
+            onGate=false;
         }
         humanName = "Todd";
     }
@@ -264,17 +266,40 @@ public class ri : MonoBehaviour
             tribe.GetComponent<Tribe>().Wood+=PlusWood;
         }
     }
+    void Unfreeze()
+    {
+        circleIteration= (int)UnityEngine.Random.Range(0,3600);
+        onGate=false;
+    }
+    void ReachPoint()
+    {
+        if(!transform.position.Equals(target) && reachingTarget)
+        {
+            transform.position = Vector3.MoveTowards(transform.position,new Vector3(target.x, transform.position.y, target.z),Time.deltaTime); 
+            if (transform.position.x==target.x&&transform.position.y==target.y&&transform.position.z==target.z)
+            {
+                print("reaced target");
+                reachingTarget=false;
+                onGround=true;
+                circleIteration= (int)UnityEngine.Random.Range(0,3600);
+                //Invoke("GetOnGround()",3f);
+            }
+        }
+        else
+        {
+            if (transform.position==target)
+            {
+                print("reaced target");
+                reachingTarget=false;
+                onGround=true;
+                circleIteration= (int)UnityEngine.Random.Range(0,3600);
+                //Invoke("GetOnGround()",3f);
+            }
+        }
+    }
     void GetOnGround()
     {
         onGround=true;
         circleIteration= (int)UnityEngine.Random.Range(0,3600);
-    }
-    void Unfreeze()
-    {
-        //GetOnGround();
-        circleIteration= (int)UnityEngine.Random.Range(0,3600);
-        onGate=false;
-        //HumansBody.constraints=RigidbodyConstraints.None;
-        //HumansBody.constraints=RigidbodyConstraints.FreezeRotationX|RigidbodyConstraints.FreezeRotationY|RigidbodyConstraints.FreezeRotationZ;
     }
 }

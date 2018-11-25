@@ -2400,7 +2400,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 402774773}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.13000001, y: 0, z: 2.4}
+  m_LocalPosition: {x: 0.13000001, y: 0, z: 2.85}
   m_LocalScale: {x: 50, y: 50, z: 50}
   m_Children:
   - {fileID: 1629428524}
@@ -3757,8 +3757,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 663196686}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.11, y: 1.41, z: 0.14}
-  m_LocalScale: {x: 6, y: 2, z: 2}
+  m_LocalPosition: {x: 6.17, y: 1.06, z: 0.14}
+  m_LocalScale: {x: 1.8, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
@@ -5903,10 +5903,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   neededClass: trader
-  tribe: {fileID: 0}
-  simpleHuman: {fileID: 1274101526857752, guid: b384e9920e855d04faf6f61f22240e01,
+  tribe: {fileID: 1634705535}
+  simpleHuman: {fileID: 1256528172423642, guid: c2e6ee1e532f12841a5ab8ca662f1364,
     type: 2}
-  totem: {fileID: 0}
+  totem: {fileID: 553841153}
   caravan: []
   expeditionsToPass: 0
   goneExpeditions: 0
@@ -6689,8 +6689,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1335082514}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.48, y: 0.27, z: -0.18}
-  m_LocalScale: {x: 6, y: 2, z: 2}
+  m_LocalPosition: {x: -5.54, y: 1, z: -0.18}
+  m_LocalScale: {x: 1.8, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
@@ -6709,8 +6709,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   neededClass: gatherer
   tribe: {fileID: 1634705535}
-  simpleHuman: {fileID: 0}
-  totem: {fileID: 0}
+  simpleHuman: {fileID: 1256528172423642, guid: c2e6ee1e532f12841a5ab8ca662f1364,
+    type: 2}
+  totem: {fileID: 553841153}
   caravan: []
   expeditionsToPass: 0
   goneExpeditions: 0
@@ -6980,8 +6981,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1442176586}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.28, z: 4.89}
-  m_LocalScale: {x: 6, y: 2, z: 2}
+  m_LocalPosition: {x: 0, y: 1.02, z: 2.52}
+  m_LocalScale: {x: 1.8, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
@@ -7000,8 +7001,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   neededClass: hunter
   tribe: {fileID: 1634705535}
-  simpleHuman: {fileID: 0}
-  totem: {fileID: 0}
+  simpleHuman: {fileID: 1256528172423642, guid: c2e6ee1e532f12841a5ab8ca662f1364,
+    type: 2}
+  totem: {fileID: 553841153}
   caravan: []
   expeditionsToPass: 0
   goneExpeditions: 0
@@ -7232,7 +7234,7 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -8103,7 +8105,6 @@ MonoBehaviour:
   Meat: 10
   Gold: 10
   Wood: 10
-  totalHumans: 0
   totalHunters: 0
   totalTraders: 0
   totalGatherers: 0
@@ -9815,6 +9816,7 @@ MonoBehaviour:
   alive: 1
   grabbed: 0
   onGround: 0
+  reachingTarget: 0
 --- !u!54 &1993053829
 Rigidbody:
   m_ObjectHideFlags: 0

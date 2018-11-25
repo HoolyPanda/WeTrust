@@ -8,10 +8,16 @@ public class Tribe : MonoBehaviour {
     public int Meat= 10;
     public int Gold=10;
     public int Wood=10;
-    public int totalHumans=0;
     public int totalHunters=0;
     public int totalTraders=0;
     public int totalGatherers=0;
+    public int totalHumans
+    {
+        get
+        {
+            return totalGatherers+totalHunters+totalTraders;
+        }
+    }
     public bool overloaded=false;
     public List<GameObject> Humans=new List<GameObject>(2);
     public GameObject ui;

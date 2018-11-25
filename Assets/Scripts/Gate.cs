@@ -25,7 +25,10 @@ public class Gate : MonoBehaviour {
         //print(gameObject.name+" was sended");
         foreach (GameObject human in caravan)
         {
-            human.GetComponent<MeshRenderer>().enabled=false;
+            
+            human.transform.Find("Body").GetComponent<MeshRenderer>().enabled=false;
+            human.transform.Find("Mask").GetComponent<MeshRenderer>().enabled=false;
+            //human.GetComponent<MeshRenderer>().enabled=false;
             if (human.GetComponent<ri>().humanClass!=neededClass&&neededClass!=null)
             {
                 if(Random.value<0.5)
@@ -40,11 +43,15 @@ public class Gate : MonoBehaviour {
     {
         foreach (GameObject human in caravan)
         {
-            GenerateEvent();
             human.GetComponent<ri>().onGate=false;
-            human.GetComponent<MeshRenderer>().enabled=true;
+            human.GetComponent<ri>().reachingTarget=false;
+            human.GetComponent<ri>().onGround=true;
+            human.transform.Find("Body").GetComponent<MeshRenderer>().enabled=true;
+            human.transform.Find("Mask").GetComponent<MeshRenderer>().enabled=true;
+            //human.GetComponent<MeshRenderer>().enabled=true;
             human.GetComponent<ri>().DoPlusResourses();
         }
+        GenerateEvent();
         goneExpeditions++;
         CheckIncomingHuman();
     }
@@ -74,7 +81,7 @@ public class Gate : MonoBehaviour {
             }else if (Wood>Gold)
             {
                 //print("Wood overlaoded");
-                GameObject newHuman =Instantiate(simpleHuman,new Vector3(2f,0.26f,2f),Quaternion.identity);
+                GameObject newHuman =Instantiate(simpleHuman,new Vector3(2f,0.26f,1.5f),Quaternion.identity);
                 CreateNewHuman();
             }
             else if (Gold>=Wood)
