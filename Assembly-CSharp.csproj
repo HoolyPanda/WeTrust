@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Gate.cs" />
+     <Compile Include="Assets\Scripts\ResourcesScr.cs" />
      <Compile Include="Assets\Scripts\ri.cs" />
      <Compile Include="Assets\Scripts\Tribe.cs" />
  <Reference Include="UnityEditor.StandardEvents">

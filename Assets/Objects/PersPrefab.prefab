@@ -40,7 +40,7 @@ GameObject:
   - component: {fileID: 65892472689177662}
   - component: {fileID: 114201839377053912}
   m_Layer: 0
-  m_Name: Pers
+  m_Name: PersPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,6 +230,7 @@ MonoBehaviour:
   currentGate: {fileID: 0}
   tribe: {fileID: 0}
   totem: {fileID: 0}
+  ui: {fileID: 0}
   humanName: Todd
   minusMeat: 1
   minusGold: 1
@@ -240,3 +241,4 @@ MonoBehaviour:
   alive: 1
   grabbed: 0
   onGround: 0
+  reachingTarget: 0

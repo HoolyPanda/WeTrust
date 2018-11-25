@@ -9,6 +9,7 @@ public class ri : MonoBehaviour
     public GameObject currentGate = null;
     public GameObject tribe;
     public GameObject totem;
+    public GameObject ui;
     public string humanName = "Todd";
     public int minusMeat=1;
     public int minusGold=1;
@@ -118,14 +119,6 @@ public class ri : MonoBehaviour
             }
             if (grabbed)
             {
-                //ray= Camera.main.ScreenPointToRay(new Vector3(touch.position.x,touch.position.y,0));
-                //if (Physics.Raycast(ray, out hit))
-                //{
-                    //target.z = hit.point.z;
-                    //target.x = hit.point.x;
-                    //transform.position =Vector3.MoveTowards(transform.position,new Vector3(target.x, transform.position.y, target.z),Time.deltaTime); 
-                    
-                //}
             }
             else
             {
@@ -278,7 +271,6 @@ public class ri : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position,new Vector3(target.x, transform.position.y, target.z),Time.deltaTime); 
             if (transform.position.x==target.x&&transform.position.y==target.y&&transform.position.z==target.z)
             {
-                print("reaced target");
                 reachingTarget=false;
                 onGround=true;
                 circleIteration= (int)UnityEngine.Random.Range(0,3600);
@@ -289,7 +281,6 @@ public class ri : MonoBehaviour
         {
             if (transform.position==target)
             {
-                print("reaced target");
                 reachingTarget=false;
                 onGround=true;
                 circleIteration= (int)UnityEngine.Random.Range(0,3600);

@@ -67,8 +67,6 @@ public class Gate : MonoBehaviour {
         int Meat= tribe.GetComponent<Tribe>().Meat;
         int Gold= tribe.GetComponent<Tribe>().Gold;
         int Wood= tribe.GetComponent<Tribe>().Wood;
-        //print(Mathf.Abs((float)Meat-Gold));
-        //print(Mathf.Abs((float)Meat-Wood));
         if (Mathf.Abs((float)Meat-Gold)>20|Mathf.Abs((float)Meat-Wood)>20)
         {
             if(Meat>Wood)
