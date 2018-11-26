@@ -7,37 +7,70 @@ public class Gate : MonoBehaviour {
     public GameObject tribe;
     public GameObject simpleHuman;
     public GameObject totem;
+    public GameObject gate;
     public List<GameObject> caravan= new List<GameObject>();
     int neededHunters;
     int neededTraders;
     int neededGatheres;
     public int expeditionsToPass;
     public int goneExpeditions=0;
+    public List<GameObject> ligths=new List<GameObject>();
     void Start () 
     {
+        ligths.Add(GameObject.Find(name+"/gate/Gate_L1"));
+        ligths.Add(GameObject.Find(name+"/gate/Gate_L2"));
+        ligths.Add(GameObject.Find(name+"/gate/Gate_L3"));
+        ligths.Add(GameObject.Find(name+"/gate/Gate_L4"));
+        ligths.Add(GameObject.Find(name+"/gate/Gate_L5")); 
         expeditionsToPass=Random.Range(5,15);
+        foreach (GameObject light in ligths)
+        {
+            light.GetComponent<MeshRenderer>().material.color=Color.white;
+        }
+        //gate.Find("Gate_L1").etComponent<MeshRenderer>().material.color=Color.red;
     }
     void Update () 
     {
-    }
-    public void SendCaravan()
-    {
-        //print(gameObject.name+" was sended");
-        foreach (GameObject human in caravan)
+        if(Input.touchCount>0)
         {
-            
-            human.transform.Find("Body").GetComponent<MeshRenderer>().enabled=false;
-            human.transform.Find("Mask").GetComponent<MeshRenderer>().enabled=false;
-            //human.GetComponent<MeshRenderer>().enabled=false;
-            if (human.GetComponent<ri>().humanClass!=neededClass&&neededClass!=null)
+            Touch touch =Input.GetTouch(0);
+            if (touch.phase==TouchPhase.Began)
             {
-                if(Random.value<0.5)
+                Ray ray= Camera.main.ScreenPointToRay(new Vector3(touch.position.x,touch.position.y,0));
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out  hit))
                 {
-                    human.GetComponent<ri>().alive=false;
+                    if (hit.collider.gameObject.Equals(gameObject))
+                    {
+                        SendCaravan();
+                    }
                 }
             }
         }
-        Invoke("ReturnCaravan",5f);
+    }
+    public void SendCaravan()
+    {
+        if(caravan.Count >0)
+        {
+            foreach(GameObject light in ligths)
+            {
+                light.GetComponent<MeshRenderer>().material.color=Color.white;
+            }
+            foreach (GameObject human in caravan)
+            {
+                human.GetComponent<ri>().onGate=true;
+                human.transform.Find("Body").GetComponent<MeshRenderer>().enabled=false;
+                human.transform.Find("Mask").GetComponent<MeshRenderer>().enabled=false;
+                if (human.GetComponent<ri>().humanClass!=neededClass&&neededClass!=null)
+                {
+                    if(Random.value<0.5)
+                    {
+                        human.GetComponent<ri>().alive=false;
+                    }
+                }
+            }
+            Invoke("ReturnCaravan",5f);
+        }
     }
     void ReturnCaravan()
     {
@@ -58,8 +91,49 @@ public class Gate : MonoBehaviour {
     void GenerateEvent()
     {
         neededHunters= (int)Random.Range(0,tribe.GetComponent<Tribe>().totalHunters);
+        if(neededHunters>=5)
+        {
+            Debug.Log("Hreroll");
+            neededHunters=(int)Random.Range(0,5);
+        }
         neededTraders= (int)Random.Range(0,tribe.GetComponent<Tribe>().totalTraders);
+        if(neededTraders>=5-neededHunters)
+        {
+            Debug.Log("Treroll");
+            neededTraders=(int)Random.Range(0,5-neededHunters);
+        }
         neededGatheres= (int)Random.Range(0,tribe.GetComponent<Tribe>().totalGatherers);
+        if(neededGatheres>=5-neededHunters-neededTraders)
+        {
+            Debug.Log("Greroll");
+            neededGatheres=(int)Random.Range(0,5-neededHunters-neededTraders);
+        }
+        int i=0;
+        for (int j=i;j<neededHunters;j++)
+        {
+            if(neededHunters!=0)
+            {
+                ligths[i].GetComponent<MeshRenderer>().material.color=Color.red;
+                i++;
+            }
+        }
+        for (int j=i;j<neededTraders;j++)
+        {
+            if(neededTraders!=0)
+            {
+                ligths[i].GetComponent<MeshRenderer>().material.color=Color.yellow;
+                i++;
+            }
+        }
+        for (int j=i;j<neededGatheres;j++)
+        {
+            if (neededGatheres!=0)
+            {
+                ligths[i].GetComponent<MeshRenderer>().material.color=Color.green;
+                i++;
+            }
+        }
+        
         print ("Need "+neededHunters.ToString()+" Hunters "+neededGatheres.ToString()+" Gatherers "+neededTraders.ToString()+" Taders at "+gameObject.name);
     }
     void CheckIncomingHuman()
@@ -79,7 +153,7 @@ public class Gate : MonoBehaviour {
             }else if (Wood>Gold)
             {
                 //print("Wood overlaoded");
-                GameObject newHuman =Instantiate(simpleHuman,new Vector3(2f,0.26f,1.5f),Quaternion.identity);
+                //GameObject newHuman =Instantiate(simpleHuman,new Vector3(-4.6f,0.02043986f,-2.72f),Quaternion.identity);
                 CreateNewHuman();
             }
             else if (Gold>=Wood)
@@ -96,7 +170,7 @@ public class Gate : MonoBehaviour {
     }
     void CreateNewHuman()
     {
-        GameObject newHuman =Instantiate(simpleHuman,new Vector3(2f,0.26f,2f),Quaternion.identity);
+        GameObject newHuman =Instantiate(simpleHuman,new Vector3(-4.6f,0.02043986f,-2.72f),Quaternion.identity);
         newHuman.GetComponent<ri>().totem=totem;
         newHuman.GetComponent<ri>().tribe=tribe;
     }

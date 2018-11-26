@@ -92,6 +92,13 @@ ModelImporter:
     100172: transform7
     100174: transform8
     100176: transform9
+    100178: Gate_Decor
+    100180: Gate_Frame
+    100182: Gate_L1
+    100184: Gate_L2
+    100186: Gate_L3
+    100188: Gate_L4
+    100190: Gate_L5
     400000: //RootNode
     400002: pCube1
     400004: pCube3
@@ -181,13 +188,41 @@ ModelImporter:
     400172: transform7
     400174: transform8
     400176: transform9
+    400178: Gate_Decor
+    400180: Gate_Frame
+    400182: Gate_L1
+    400184: Gate_L2
+    400186: Gate_L3
+    400188: Gate_L4
+    400190: Gate_L5
     2100000: lambert1
     2300000: polySurface16
     2300002: pPipe1
+    2300004: Gate_Decor
+    2300006: Gate_Frame
+    2300008: Gate_L1
+    2300010: Gate_L2
+    2300012: Gate_L3
+    2300014: Gate_L4
+    2300016: Gate_L5
     3300000: polySurface16
     3300002: pPipe1
+    3300004: Gate_Decor
+    3300006: Gate_Frame
+    3300008: Gate_L1
+    3300010: Gate_L2
+    3300012: Gate_L3
+    3300014: Gate_L4
+    3300016: Gate_L5
     4300000: pPipe1
     4300002: polySurface16
+    4300004: Gate_Frame
+    4300006: Gate_L1
+    4300008: Gate_L2
+    4300010: Gate_L5
+    4300012: Gate_L4
+    4300014: Gate_L3
+    4300016: Gate_Decor
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -219,7 +254,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 50
     meshCompression: 0
     addColliders: 0
     importVisibility: 1

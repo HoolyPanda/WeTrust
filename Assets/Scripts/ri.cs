@@ -60,7 +60,7 @@ public class ri : MonoBehaviour
     public bool reachingTarget=false;
     private Vector3 target = new Vector3(0, 0, 0);
     int circleIteration = 0;
-    float circleRadius=1.5f;
+    float circleRadius=2f;
     Ray ray;
     Camera Camera;
     RaycastHit hit;
@@ -141,11 +141,11 @@ public class ri : MonoBehaviour
                 if(Math.Abs(circleTarget.x-transform.position.x)+Math.Abs(circleTarget.z-transform.position.z)>=0.25)
                 {
                     //this will detect if human didnt take is positiion in circle
-                    gameObject.transform.Find("Mask").GetComponent<MeshRenderer>().material.color=Color.black;
+                    //gameObject.transform.Find("Mask").GetComponent<MeshRenderer>().material.color=Color.black;
                 }else
                 {
                     //if human took his position
-                    gameObject.transform.Find("Mask").GetComponent<MeshRenderer>().material.color=Color.white;
+                    //gameObject.transform.Find("Mask").GetComponent<MeshRenderer>().material.color=Color.white;
                 }
                 transform.position=Vector3.MoveTowards(transform.position,circleTarget,Time.deltaTime);
             }

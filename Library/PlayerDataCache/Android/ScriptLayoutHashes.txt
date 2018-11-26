@@ -1,6 +1,6 @@
 Android
 PlayerPath?
-C:/Users/Pavlo/Documents/WeTrust/WeTrustDevBuild0.apk
+C:/Users/Pavlo/Documents/WeTrust/WeTrustDevBuild1.apk
 SceneListBegin?
 Assets/Scenes/SampleScene.unity
 SceneListEnd?
@@ -124,6 +124,7 @@ dfd33ff9ae3ce8d7ca1f22b475ec2387 UnityEngine.HoloLens.dll:UnityEngine.XR.WSA.Spa
 f16835701e71dd5d6fb1fed4b7aff1d8 Unity.TextMeshPro.dll:TMPro.TMP_Asset
 486cd95c82d8305219c352c06b776e1f Unity.TextMeshPro.dll:TMPro.TMP_SpriteAnimator
 eaf0bcdb10d442a4029d615f41d09957 Unity.TextMeshPro.dll:TMPro.TextContainer
+bb99b3fea1b810476d851a073e8f2356 Assembly-CSharp.dll:.ResourcesScr
 201273fb4f889724fb090164b7d6c657 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 486cd95c82d8305219c352c06b776e1f UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour
 0f27c39183b9eb95eba0a228bea28273 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkDiscovery
@@ -167,5 +168,4 @@ e04611b8715e6833d2bd7010fc6be10b Unity.TextMeshPro.dll:TMPro.TMP_StyleSheet
 2f9af06a78208a67db480e9bfed4a076 Unity.TextMeshPro.dll:TMPro.TextMeshPro
 9318334b30e9f195f573b2ce00154b95 Unity.TextMeshPro.dll:TMPro.TMP_ColorGradient
 93307bd34e39d73fd24e00ec39c25a91 Unity.TextMeshPro.dll:TMPro.TMP_SubMesh
-6348d4bcc3215255f7c51014e7b5dc55 Assembly-CSharp.dll:.Gate
-bb99b3fea1b810476d851a073e8f2356 Assembly-CSharp.dll:.ResourcesScr
+50ff95ed0409bca64f8c2696cea9d560 Assembly-CSharp.dll:.Gate
