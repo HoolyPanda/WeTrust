@@ -61,13 +61,7 @@ public class Gate : MonoBehaviour {
                 human.GetComponent<ri>().onGate=true;
                 human.transform.Find("Body").GetComponent<MeshRenderer>().enabled=false;
                 human.transform.Find("Mask").GetComponent<MeshRenderer>().enabled=false;
-                if (human.GetComponent<ri>().humanClass!=neededClass&&neededClass!=null)
-                {
-                    if(Random.value<0.5)
-                    {
-                        human.GetComponent<ri>().alive=false;
-                    }
-                }
+                
             }
             Invoke("ReturnCaravan",5f);
         }
@@ -76,12 +70,20 @@ public class Gate : MonoBehaviour {
     {
         foreach (GameObject human in caravan)
         {
+            if (human.GetComponent<ri>().humanClass!=neededClass&&neededClass!=null)
+                {
+                    if(Random.value<0.5)
+                    {
+                        human.GetComponent<ri>().alive=false;
+                    }
+                }
             human.GetComponent<ri>().reachingTarget=false;
             human.GetComponent<ri>().onGround=true;
+            human.GetComponent<ri>().onGate=false;
+            human.GetComponent<ri>().toGate=false;
             human.transform.Find("Body").GetComponent<MeshRenderer>().enabled=true;
             human.transform.Find("Mask").GetComponent<MeshRenderer>().enabled=true;
             human.GetComponent<ri>().DoPlusResourses();
-            //human.GetComponent<ri>().Unfreeze();
         }
         GenerateEvent();
         goneExpeditions++;
@@ -151,8 +153,7 @@ public class Gate : MonoBehaviour {
                 }
             }else if (Wood>Gold)
             {
-                //print("Wood overlaoded");
-                //GameObject newHuman =Instantiate(simpleHuman,new Vector3(-4.6f,0.02043986f,-2.72f),Quaternion.identity);
+                //print("Wood overlaoded");;
                 CreateNewHuman();
             }
             else if (Gold>=Wood)
@@ -170,8 +171,9 @@ public class Gate : MonoBehaviour {
     void CreateNewHuman()
     {
         GameObject newHuman = Instantiate(simpleHuman,new Vector3(-4.6f,0.02043986f,-2.72f),Quaternion.identity);
-        tribe.GetComponent<Tribe>().Humans.Add(newHuman);
+        //newHuman.transform.parent=GameObject.Find("humans").transform;
         newHuman.GetComponent<ri>().totem=totem;
         newHuman.GetComponent<ri>().tribe=tribe;
+        tribe.GetComponent<Tribe>().Humans.Add(newHuman);
     }
 }

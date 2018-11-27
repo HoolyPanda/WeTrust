@@ -8,8 +8,10 @@ public class point : MonoBehaviour {
     public GameObject tribe;
     public GameObject totem;
     public float circleIteration = 0f;
-    public int pos=-1;
-    float circleRadius=2f;
+    public int pos;
+    public float circleRadius=2f;
+    public float positios;
+    public bool freezed=false;
     void Start () {
         //Unfreeze();
     }
@@ -24,7 +26,7 @@ public class point : MonoBehaviour {
     }
     void RunCircle()
     {
-        if (true)
+        if (!freezed)
         {
             Vector3 circleTarget=new Vector3(totem.transform.position. x+ (float)Mathf.Cos(circleIteration)*circleRadius,transform.position.y, totem.transform.position.z+(float)(Mathf.Sin(circleIteration)*circleRadius));
             if(Mathf.Abs(circleTarget.x-transform.position.x)+Mathf.Abs(circleTarget.z-transform.position.z)>=0.1)
@@ -35,21 +37,20 @@ public class point : MonoBehaviour {
                 //if human took his position
                 transform.position=circleTarget;
             }
-            transform.position=Vector3.MoveTowards(transform.position,circleTarget,Time.deltaTime);
-        }
-        if (circleIteration <= Mathf.PI*2)
-        {
-            circleIteration+=0.01f;
-        }
-        else
-        {
-            circleIteration = 0f;
+            transform.position=circleTarget;
+            if (circleIteration <= Mathf.PI*2)
+            {
+                circleIteration+=0.01f;
+            }
+            else
+            {
+                circleIteration = 0f;
+            }
         }
     }
     public void Unfreeze()
     {
-
-        float positios = Mathf.PI*2/4;
+        positios = Mathf.PI*2/tribe.GetComponent<Tribe>().Humans.Count;
         print(positios.ToString());
         circleIteration= pos*positios;
     }

@@ -9,7 +9,6 @@ public class ri : MonoBehaviour
     public GameObject currentGate = null;
     public GameObject tribe;
     public GameObject totem;
-    public GameObject ui;
     public string humanName = "Todd";
     public int minusMeat=1;
     public int minusGold=1;
@@ -60,9 +59,8 @@ public class ri : MonoBehaviour
     bool gettingResourses=false;
     public bool reachingTarget=false;
     private Vector3 target = new Vector3(0, 0, 0);
-    public float circleIteration = 0f;
     public int fu;
-    float circleRadius=2f;
+    public bool toGate=false;
     Ray ray;
     Camera Camera;
     RaycastHit hit;
@@ -77,6 +75,10 @@ public class ri : MonoBehaviour
     }
     void Update()
     {
+        if(!alive)
+        {
+            Invoke("Death",0f);
+        }
     }
     private void FixedUpdate()
     {
@@ -93,7 +95,11 @@ public class ri : MonoBehaviour
                         gameObject.transform.Find("Body").GetComponent<MeshRenderer>().material.color=Color.magenta;
                         grabbed = true;
                         onGround = false;
-                        //Unfreeze();
+                        foreach(GameObject human in tribe.GetComponent<Tribe>().Humans)
+                        {
+                            human.GetComponent<ri>().onGround=false;
+                        }
+                        totem.GetComponent<Totem>().Freeze();
                     }
                 }
             }
@@ -120,9 +126,9 @@ public class ri : MonoBehaviour
                 ray= Camera.main.ScreenPointToRay(new Vector3(touch.position.x,touch.position.y,0));
                 if (Physics.Raycast(ray, out hit))
                 {
-                    target.x= hit.point.x;
-                    target.y= 0.03000009f;
-                    target.z= hit.point.z;
+                    //target.x= hit.point.x;
+                    //target.y= 0.03000009f;
+                    //target.z= hit.point.z;
                     if (hit.collider.gameObject.Equals(GameObject.Find("LeftProtoGate")))
                     {
                         currentGate=GameObject.Find("LeftProtoGate");
@@ -132,11 +138,45 @@ public class ri : MonoBehaviour
                         {
                             target=GameObject.Find("LeftProtoGate").transform.position;
                         }
+                        toGate=true;
+                        totem.GetComponent<Totem>().Unfreeze();
+                    }
+                    if (hit.collider.gameObject.Equals(GameObject.Find("RightProtoGate")))
+                    {
+                        currentGate=GameObject.Find("RightProtoGate");
+                        Vector3 t= GameObject.Find("BottomRightPoint").transform.position;
+                        target=t;
+                        if(!fromTotem)
+                        {
+                            target=GameObject.Find("RightProtoGate").transform.position;
+                        }
+                        toGate=true;
+                        totem.GetComponent<Totem>().Unfreeze();
+                    }
+                    if (hit.collider.gameObject.Equals(GameObject.Find("TopProtoGate")))
+                    {
+                        currentGate=GameObject.Find("TopProtoGate");
+                        Vector3 t= GameObject.Find("TopProtoGate").transform.position;
+                        target=t;
+                        if(!fromTotem)
+                        {
+                            target=GameObject.Find("TopProtoGate").transform.position;
+                        }
+                        toGate=true;
+                        //Invoke()
+                        totem.GetComponent<Totem>().Unfreeze();
                     }
                 }
                 grabbed = false;
                 reachingTarget=true;
                 gameObject.transform.Find("Body").GetComponent<MeshRenderer>().material.color=Color.white;
+                foreach(GameObject human in tribe.GetComponent<Tribe>().Humans)
+                {
+                    if (!human.Equals(gameObject)&&!human.GetComponent<ri>().toGate)
+                    {
+                        human.GetComponent<ri>().onGround=true;
+                    }
+                }
             }
             if (grabbed)
             {
@@ -154,27 +194,13 @@ public class ri : MonoBehaviour
     }
     void RunCircle()
     {
-        if (onGround&&!onGate)
+        if(onGround&&!onGate)
         {
-            Vector3 circleTarget=new Vector3(totem.transform.position. x+ (float)Math.Cos(circleIteration)*circleRadius,transform.position.y, totem.transform.position.z+(float)(Math.Sin(circleIteration)*circleRadius));
-            if(Math.Abs(circleTarget.x-transform.position.x)+Math.Abs(circleTarget.z-transform.position.z)>=0.1)
+            transform.position= Vector3.Lerp(transform.position,totem.GetComponent<Totem>().points[fu].GetComponent<point>().transform.position,Time.deltaTime);
+            if(Mathf.Abs(transform.position.x-totem.GetComponent<Totem>().points[fu].GetComponent<point>().transform.position.x)<=1.1&&Mathf.Abs(transform.position.z-totem.GetComponent<Totem>().points[fu].GetComponent<point>().transform.position.z)<=0.1)
             {
-                //this will detect if human didnt take is positiion in circle
-            }else
-            {
-                //if human took his position
-                transform.position=circleTarget;
                 fromTotem=true;
             }
-            transform.position=Vector3.MoveTowards(transform.position,circleTarget,Time.deltaTime);
-        }
-        if (circleIteration <= Mathf.PI*2)
-        {
-            circleIteration+=0.01f;
-        }
-        else
-        {
-            circleIteration = 0f;
         }
     }
     private void OnTriggerEnter(Collider collision)
@@ -212,7 +238,7 @@ public class ri : MonoBehaviour
             fromTotem=false;
             onGate=true;
             collision.gameObject.GetComponent<Gate>().caravan.Add(gameObject);
-            if(humanClass==null)
+            if(humanClass==null||humanClass=="")
             {
                 humanClass="gatherer";
                 gameObject.transform.Find("Mask").GetComponent<MeshRenderer>().material.color=Color.green;
@@ -283,9 +309,6 @@ public class ri : MonoBehaviour
     }
     public void Unfreeze()
     {
-        float pos = Mathf.PI*2/tribe.GetComponent<Tribe>().Humans.Count;
-        print(pos.ToString());
-        circleIteration= tribe.GetComponent<Tribe>().Humans.IndexOf(gameObject)*pos;
         onGate=false;
     }
     void ReachPoint()
@@ -296,13 +319,21 @@ public class ri : MonoBehaviour
             if (transform.position.x==target.x&&transform.position.z==target.z)
             {
                 reachingTarget=false;
-                onGround=true;
                 if(currentGate.Equals(GameObject.Find("LeftProtoGate")))
                 {
-                    currentGate=null;
                     target=GameObject.Find("LeftProtoGate").transform.position;
+                    currentGate=null;
                     reachingTarget=true;
                     onGround=false;
+                    transform.position = Vector3.MoveTowards(transform.position,new Vector3(target.x, transform.position.y, target.z),Time.deltaTime);
+                }
+                if(currentGate.Equals(GameObject.Find("RightProtoGate")))
+                {
+                    target=GameObject.Find("RightProtoGate").transform.position;
+                    currentGate=null;
+                    reachingTarget=true;
+                    onGround=false;
+                    transform.position = Vector3.MoveTowards(transform.position,new Vector3(target.x, transform.position.y, target.z),Time.deltaTime);
                 }
             }
         }
@@ -310,6 +341,17 @@ public class ri : MonoBehaviour
     void GetOnGround()
     {
         onGround=true;
-        //circleIteration= (int)UnityEngine.Random.Range(0,3600);
+    }
+    void Death()
+    {
+        Destroy(gameObject,0f);
+        tribe.GetComponent<Tribe>().Humans= new List<GameObject>(GameObject.FindGameObjectsWithTag("Human").Length);
+        foreach(GameObject human in GameObject.FindGameObjectsWithTag("Human"))
+        {
+            if (!human.Equals(gameObject))
+            {
+                tribe.GetComponent<Tribe>().Humans.Add(human);
+            }
+        }
     }
 }

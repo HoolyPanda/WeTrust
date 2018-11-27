@@ -44,7 +44,7 @@ public class Tribe : MonoBehaviour {
         {
             //print("low on wood");
         }
-        if(totalGatherers+totalHunters+totalTraders>=15)
+        if(totalGatherers+totalHunters+totalTraders>=10)
         {
             Won();
         }

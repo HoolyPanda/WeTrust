@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 114201839377053912}
   m_Layer: 0
   m_Name: PersPrefab
-  m_TagString: Untagged
+  m_TagString: Human
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -201,7 +201,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 80
   m_CollisionDetection: 0
 --- !u!65 &65892472689177662
 BoxCollider:
@@ -213,7 +213,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.1, y: 1.24, z: 0.67}
+  m_Size: {x: 0.6, y: 1.24, z: 0.67}
   m_Center: {x: 0, y: 0.59, z: 0.03}
 --- !u!114 &114201839377053912
 MonoBehaviour:
@@ -230,15 +230,17 @@ MonoBehaviour:
   currentGate: {fileID: 0}
   tribe: {fileID: 0}
   totem: {fileID: 0}
-  ui: {fileID: 0}
   humanName: Todd
   minusMeat: 1
   minusGold: 1
   minusWood: 1
   level: 1
   humanClass: 
-  onGate: 0
+  onGate: 1
   alive: 1
   grabbed: 0
   onGround: 0
+  fromTotem: 0
   reachingTarget: 0
+  fu: 0
+  toGate: 0

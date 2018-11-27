@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Human
   - Gate
+  - point
   layers:
   - Default
   - TransparentFX
