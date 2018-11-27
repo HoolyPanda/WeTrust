@@ -609,6 +609,11 @@ Prefab:
       propertyPath: totem
       value: 
       objectReference: {fileID: 553841153}
+    - target: {fileID: 23990213406093852, guid: b3cdaa572259c06488b707b38fca6a0d,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3cdaa572259c06488b707b38fca6a0d, type: 2}
   m_IsPrefabAsset: 0
@@ -750,7 +755,7 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 577817353}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1103,6 +1108,11 @@ Prefab:
       propertyPath: totem
       value: 
       objectReference: {fileID: 553841153}
+    - target: {fileID: 23990213406093852, guid: b3cdaa572259c06488b707b38fca6a0d,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3cdaa572259c06488b707b38fca6a0d, type: 2}
   m_IsPrefabAsset: 0
@@ -1136,7 +1146,7 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1294110001}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1345,6 +1355,11 @@ Prefab:
       propertyPath: totem
       value: 
       objectReference: {fileID: 553841153}
+    - target: {fileID: 23990213406093852, guid: b3cdaa572259c06488b707b38fca6a0d,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b3cdaa572259c06488b707b38fca6a0d, type: 2}
   m_IsPrefabAsset: 0
@@ -1383,7 +1398,7 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1430707695}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2564,7 +2579,7 @@ MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2141625407}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
