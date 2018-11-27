@@ -19,7 +19,7 @@ public class Tribe : MonoBehaviour {
         }
     }
     public bool overloaded=false;
-    public List<GameObject> Humans=new List<GameObject>(2);
+    public List<GameObject> Humans=new List<GameObject>();
     public GameObject ui;
     
     void Start () {
@@ -52,9 +52,5 @@ public class Tribe : MonoBehaviour {
     void Won()
     {
         ui.GetComponent<Text>().enabled=true;
-    }
-    void AddNewHuman()
-    {
-
     }
 }

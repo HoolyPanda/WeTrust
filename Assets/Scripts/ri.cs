@@ -56,10 +56,12 @@ public class ri : MonoBehaviour
     public bool alive=true;
     public bool grabbed = false;
     public bool onGround=false;
+    public bool fromTotem=false;
     bool gettingResourses=false;
     public bool reachingTarget=false;
     private Vector3 target = new Vector3(0, 0, 0);
-    int circleIteration = 0;
+    public float circleIteration = 0f;
+    public int fu;
     float circleRadius=2f;
     Ray ray;
     Camera Camera;
@@ -70,6 +72,8 @@ public class ri : MonoBehaviour
         Camera = GetComponent<Camera>();
         humanClass=null;
         gameObject.transform.Find("Body").GetComponent<MeshRenderer>().material.color=Color.white;
+        fu =tribe.GetComponent<Tribe>().Humans.IndexOf(this.gameObject);
+        Unfreeze();
     }
     void Update()
     {
@@ -89,7 +93,7 @@ public class ri : MonoBehaviour
                         gameObject.transform.Find("Body").GetComponent<MeshRenderer>().material.color=Color.magenta;
                         grabbed = true;
                         onGround = false;
-                        Unfreeze();
+                        //Unfreeze();
                     }
                 }
             }
@@ -113,6 +117,23 @@ public class ri : MonoBehaviour
             }
             if(touch.phase==TouchPhase.Ended && grabbed)
             {
+                ray= Camera.main.ScreenPointToRay(new Vector3(touch.position.x,touch.position.y,0));
+                if (Physics.Raycast(ray, out hit))
+                {
+                    target.x= hit.point.x;
+                    target.y= 0.03000009f;
+                    target.z= hit.point.z;
+                    if (hit.collider.gameObject.Equals(GameObject.Find("LeftProtoGate")))
+                    {
+                        currentGate=GameObject.Find("LeftProtoGate");
+                        Vector3 t= GameObject.Find("BottomLeftPoint").transform.position;
+                        target=t;
+                        if(!fromTotem)
+                        {
+                            target=GameObject.Find("LeftProtoGate").transform.position;
+                        }
+                    }
+                }
                 grabbed = false;
                 reachingTarget=true;
                 gameObject.transform.Find("Body").GetComponent<MeshRenderer>().material.color=Color.white;
@@ -135,25 +156,25 @@ public class ri : MonoBehaviour
     {
         if (onGround&&!onGate)
         {
-            if (circleIteration < 36000)
+            Vector3 circleTarget=new Vector3(totem.transform.position. x+ (float)Math.Cos(circleIteration)*circleRadius,transform.position.y, totem.transform.position.z+(float)(Math.Sin(circleIteration)*circleRadius));
+            if(Math.Abs(circleTarget.x-transform.position.x)+Math.Abs(circleTarget.z-transform.position.z)>=0.1)
             {
-                Vector3 circleTarget=new Vector3(totem.transform.position. x+ (float)Math.Cos(circleIteration/100f)*circleRadius,transform.position.y, totem.transform.position.z+(float)(Math.Sin(circleIteration/100f)*circleRadius));
-                if(Math.Abs(circleTarget.x-transform.position.x)+Math.Abs(circleTarget.z-transform.position.z)>=0.25)
-                {
-                    //this will detect if human didnt take is positiion in circle
-                    //gameObject.transform.Find("Mask").GetComponent<MeshRenderer>().material.color=Color.black;
-                }else
-                {
-                    //if human took his position
-                    //gameObject.transform.Find("Mask").GetComponent<MeshRenderer>().material.color=Color.white;
-                }
-                transform.position=Vector3.MoveTowards(transform.position,circleTarget,Time.deltaTime);
-            }
-            else
+                //this will detect if human didnt take is positiion in circle
+            }else
             {
-                circleIteration = 0;
+                //if human took his position
+                transform.position=circleTarget;
+                fromTotem=true;
             }
-            circleIteration+=1;
+            transform.position=Vector3.MoveTowards(transform.position,circleTarget,Time.deltaTime);
+        }
+        if (circleIteration <= Mathf.PI*2)
+        {
+            circleIteration+=0.01f;
+        }
+        else
+        {
+            circleIteration = 0f;
         }
     }
     private void OnTriggerEnter(Collider collision)
@@ -188,6 +209,7 @@ public class ri : MonoBehaviour
         }
         if (collision.gameObject.name == "LeftProtoGate")
         {
+            fromTotem=false;
             onGate=true;
             collision.gameObject.GetComponent<Gate>().caravan.Add(gameObject);
             if(humanClass==null)
@@ -259,9 +281,11 @@ public class ri : MonoBehaviour
             tribe.GetComponent<Tribe>().Wood+=PlusWood;
         }
     }
-    void Unfreeze()
+    public void Unfreeze()
     {
-        circleIteration= (int)UnityEngine.Random.Range(0,3600);
+        float pos = Mathf.PI*2/tribe.GetComponent<Tribe>().Humans.Count;
+        print(pos.ToString());
+        circleIteration= tribe.GetComponent<Tribe>().Humans.IndexOf(gameObject)*pos;
         onGate=false;
     }
     void ReachPoint()
@@ -269,28 +293,23 @@ public class ri : MonoBehaviour
         if(!transform.position.Equals(target) && reachingTarget)
         {
             transform.position = Vector3.MoveTowards(transform.position,new Vector3(target.x, transform.position.y, target.z),Time.deltaTime); 
-            if (transform.position.x==target.x&&transform.position.y==target.y&&transform.position.z==target.z)
+            if (transform.position.x==target.x&&transform.position.z==target.z)
             {
                 reachingTarget=false;
                 onGround=true;
-                circleIteration= (int)UnityEngine.Random.Range(0,3600);
-                //Invoke("GetOnGround()",3f);
-            }
-        }
-        else
-        {
-            if (transform.position==target)
-            {
-                reachingTarget=false;
-                onGround=true;
-                circleIteration= (int)UnityEngine.Random.Range(0,3600);
-                //Invoke("GetOnGround()",3f);
+                if(currentGate.Equals(GameObject.Find("LeftProtoGate")))
+                {
+                    currentGate=null;
+                    target=GameObject.Find("LeftProtoGate").transform.position;
+                    reachingTarget=true;
+                    onGround=false;
+                }
             }
         }
     }
     void GetOnGround()
     {
         onGround=true;
-        circleIteration= (int)UnityEngine.Random.Range(0,3600);
+        //circleIteration= (int)UnityEngine.Random.Range(0,3600);
     }
 }

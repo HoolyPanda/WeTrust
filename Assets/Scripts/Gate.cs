@@ -76,13 +76,12 @@ public class Gate : MonoBehaviour {
     {
         foreach (GameObject human in caravan)
         {
-            human.GetComponent<ri>().onGate=false;
             human.GetComponent<ri>().reachingTarget=false;
             human.GetComponent<ri>().onGround=true;
             human.transform.Find("Body").GetComponent<MeshRenderer>().enabled=true;
             human.transform.Find("Mask").GetComponent<MeshRenderer>().enabled=true;
-            //human.GetComponent<MeshRenderer>().enabled=true;
             human.GetComponent<ri>().DoPlusResourses();
+            //human.GetComponent<ri>().Unfreeze();
         }
         GenerateEvent();
         goneExpeditions++;
@@ -170,7 +169,8 @@ public class Gate : MonoBehaviour {
     }
     void CreateNewHuman()
     {
-        GameObject newHuman =Instantiate(simpleHuman,new Vector3(-4.6f,0.02043986f,-2.72f),Quaternion.identity);
+        GameObject newHuman = Instantiate(simpleHuman,new Vector3(-4.6f,0.02043986f,-2.72f),Quaternion.identity);
+        tribe.GetComponent<Tribe>().Humans.Add(newHuman);
         newHuman.GetComponent<ri>().totem=totem;
         newHuman.GetComponent<ri>().tribe=tribe;
     }
