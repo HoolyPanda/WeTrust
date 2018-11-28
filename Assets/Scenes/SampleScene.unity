@@ -905,53 +905,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4995122165082306, guid: b3cdaa572259c06488b707b38fca6a0d,
     type: 2}
   m_PrefabInternal: {fileID: 497408552}
---- !u!1001 &813648819
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4259918480528478, guid: c2e6ee1e532f12841a5ab8ca662f1364, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 2.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4259918480528478, guid: c2e6ee1e532f12841a5ab8ca662f1364, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0.020439863
-      objectReference: {fileID: 0}
-    - target: {fileID: 4259918480528478, guid: c2e6ee1e532f12841a5ab8ca662f1364, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: -2.85
-      objectReference: {fileID: 0}
-    - target: {fileID: 4259918480528478, guid: c2e6ee1e532f12841a5ab8ca662f1364, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4259918480528478, guid: c2e6ee1e532f12841a5ab8ca662f1364, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0.9940109
-      objectReference: {fileID: 0}
-    - target: {fileID: 4259918480528478, guid: c2e6ee1e532f12841a5ab8ca662f1364, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4259918480528478, guid: c2e6ee1e532f12841a5ab8ca662f1364, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 0.10928058
-      objectReference: {fileID: 0}
-    - target: {fileID: 4259918480528478, guid: c2e6ee1e532f12841a5ab8ca662f1364, type: 2}
-      propertyPath: m_RootOrder
-      value: 19
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c2e6ee1e532f12841a5ab8ca662f1364, type: 2}
-  m_IsPrefabAsset: 0
---- !u!1 &813648820 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1256528172423642, guid: c2e6ee1e532f12841a5ab8ca662f1364,
-    type: 2}
-  m_PrefabInternal: {fileID: 813648819}
 --- !u!114 &1111295100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2227,7 +2180,6 @@ MonoBehaviour:
   - {fileID: 1993053827}
   - {fileID: 1601203243}
   - {fileID: 1621758064}
-  - {fileID: 813648820}
   ui: {fileID: 123850134}
 --- !u!1 &1700078327
 GameObject:

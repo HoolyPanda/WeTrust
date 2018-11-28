@@ -165,6 +165,7 @@ public class Gate : MonoBehaviour {
         if (goneExpeditions>=expeditionsToPass)
         {
             goneExpeditions=0;
+            expeditionsToPass=Random.Range(5,15);
             CreateNewHuman();
         }
     }
