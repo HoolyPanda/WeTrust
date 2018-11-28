@@ -344,8 +344,11 @@ public class ri : MonoBehaviour
     }
     void Death()
     {
-        Destroy(gameObject,0f);
         tribe.GetComponent<Tribe>().Humans= new List<GameObject>(GameObject.FindGameObjectsWithTag("Human").Length);
+        //UBO here, need to be fixed later
+        gameObject.transform.Find("Body").GetComponent<MeshRenderer>().enabled=false;
+        gameObject.transform.Find("Mask").GetComponent<MeshRenderer>().enabled=false;
+        transform.position=totem.transform.position;
         foreach(GameObject human in GameObject.FindGameObjectsWithTag("Human"))
         {
             if (!human.Equals(gameObject))
@@ -353,5 +356,6 @@ public class ri : MonoBehaviour
                 tribe.GetComponent<Tribe>().Humans.Add(human);
             }
         }
+        Destroy(gameObject,0.1f);
     }
 }

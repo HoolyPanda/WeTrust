@@ -58,9 +58,12 @@ public class Gate : MonoBehaviour {
             }
             foreach (GameObject human in caravan)
             {
-                human.GetComponent<ri>().onGate=true;
-                human.transform.Find("Body").GetComponent<MeshRenderer>().enabled=false;
-                human.transform.Find("Mask").GetComponent<MeshRenderer>().enabled=false;
+                if(!human.Equals(null))
+                {
+                    human.GetComponent<ri>().onGate=true;
+                    human.transform.Find("Body").GetComponent<MeshRenderer>().enabled=false;
+                    human.transform.Find("Mask").GetComponent<MeshRenderer>().enabled=false;
+                }
                 
             }
             Invoke("ReturnCaravan",5f);
@@ -70,20 +73,23 @@ public class Gate : MonoBehaviour {
     {
         foreach (GameObject human in caravan)
         {
-            if (human.GetComponent<ri>().humanClass!=neededClass&&neededClass!=null)
-                {
-                    if(Random.value<0.5)
+            if(!human.Equals(null))
+            {
+                if (human.GetComponent<ri>().humanClass!=neededClass&&neededClass!=null)
                     {
-                        human.GetComponent<ri>().alive=false;
+                        if(Random.value<0.5)
+                        {
+                            human.GetComponent<ri>().alive=false;
+                        }
                     }
-                }
-            human.GetComponent<ri>().reachingTarget=false;
-            human.GetComponent<ri>().onGround=true;
-            human.GetComponent<ri>().onGate=false;
-            human.GetComponent<ri>().toGate=false;
-            human.transform.Find("Body").GetComponent<MeshRenderer>().enabled=true;
-            human.transform.Find("Mask").GetComponent<MeshRenderer>().enabled=true;
-            human.GetComponent<ri>().DoPlusResourses();
+                human.GetComponent<ri>().reachingTarget=false;
+                human.GetComponent<ri>().onGround=true;
+                human.GetComponent<ri>().onGate=false;
+                human.GetComponent<ri>().toGate=false;
+                human.transform.Find("Body").GetComponent<MeshRenderer>().enabled=true;
+                human.transform.Find("Mask").GetComponent<MeshRenderer>().enabled=true;
+                human.GetComponent<ri>().DoPlusResourses();
+            }
         }
         GenerateEvent();
         goneExpeditions++;
