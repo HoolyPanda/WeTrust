@@ -70,7 +70,7 @@ public class ri : MonoBehaviour
         Camera = GetComponent<Camera>();
         humanClass=null;
         gameObject.transform.Find("Body").GetComponent<MeshRenderer>().material.color=Color.white;
-        fu =tribe.GetComponent<Tribe>().Humans.IndexOf(this.gameObject);
+        fu = tribe.GetComponent<Tribe>().Humans.IndexOf(this.gameObject);
         Unfreeze();
     }
     void Update()
@@ -113,7 +113,6 @@ public class ri : MonoBehaviour
                     target.z= hit.point.z;
                     if (hit.collider.isTrigger)
                     {
-                        //print(hit.collider.name);
                         target.x= hit.collider.gameObject.transform.position.x;
                         target.y= 0.03000009f;
                         target.z= hit.collider.gameObject.transform.position.z;
@@ -198,7 +197,7 @@ public class ri : MonoBehaviour
                 }
             }
             if (grabbed)
-            {
+            {//UBO
             }
             else
             {
@@ -228,7 +227,7 @@ public class ri : MonoBehaviour
         {
             onGate=true;
             collision.gameObject.GetComponent<Gate>().caravan.Add(gameObject);
-            if (humanClass==null)
+            if (humanClass==null||humanClass=="")
             {
                 humanClass="trader";
                 gameObject.transform.Find("Mask").GetComponent<MeshRenderer>().material.color=Color.yellow;
@@ -340,7 +339,7 @@ public class ri : MonoBehaviour
                 reachingTarget=false;
                 if(currentGate.Equals(GameObject.Find("LeftProtoGate")))
                 {
-                    //target=GameObject.Find("LeftProtoGate").transform.position;
+                    target=GameObject.Find("LeftProtoGate").transform.position;
                     currentGate=null;
                     reachingTarget=true;
                     onGround=false;

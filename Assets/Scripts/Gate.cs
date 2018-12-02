@@ -56,7 +56,7 @@ public class Gate : MonoBehaviour {
     }
     public void SendCaravan()
     {
-        if(caravan.Count >0&&CheckQuest())
+        if(caravan.Count>0 && CheckQuest())
         {
             foreach(GameObject light in ligths)
             {
@@ -70,7 +70,6 @@ public class Gate : MonoBehaviour {
                     human.transform.Find("Body").GetComponent<MeshRenderer>().enabled=false;
                     human.transform.Find("Mask").GetComponent<MeshRenderer>().enabled=false;
                 }
-                
             }
             Invoke("ReturnCaravan",5f);
         }
@@ -103,6 +102,7 @@ public class Gate : MonoBehaviour {
     }
     void GenerateEvent()
     {
+        //min(5,hunters)
         neededHunters= (int)Random.Range(0,tribe.GetComponent<Tribe>().totalHunters);
         if(neededHunters>=5)
         {
@@ -122,6 +122,7 @@ public class Gate : MonoBehaviour {
             neededGatheres=(int)Random.Range(0,5-neededHunters-neededTraders);
         }
         int i=0;
+        //UBO
         for (int j=i;j<neededHunters;j++)
         {
             if(neededHunters!=0)
@@ -132,6 +133,7 @@ public class Gate : MonoBehaviour {
                 i++;
             }
         }
+        //j=i;//check
         for (int j=i;j<neededTraders;j++)
         {
             if(neededTraders!=0)

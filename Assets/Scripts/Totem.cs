@@ -34,7 +34,7 @@ public class Totem : MonoBehaviour {
                 }
                 else
                 {
-                    cPoint.GetComponent<point>().circleRadius=0.25f*tribe.GetComponent<Tribe>().Humans.Count; 
+                    cPoint.GetComponent<point>().circleRadius=0.2f*tribe.GetComponent<Tribe>().Humans.Count; 
                 }
                 cPoint.GetComponent<point>().pos=points.IndexOf(cPoint);
                 cPoint.GetComponent<point>().Unfreeze();
@@ -68,7 +68,7 @@ public class Totem : MonoBehaviour {
                 }
                 else
                 {
-                    cPoint.GetComponent<point>().circleRadius=0.1f*tribe.GetComponent<Tribe>().Humans.Count; 
+                    cPoint.GetComponent<point>().circleRadius=0.2f*tribe.GetComponent<Tribe>().Humans.Count; 
                 } 
                 cPoint.GetComponent<point>().pos=points.IndexOf(cPoint);
                 cPoint.GetComponent<point>().Unfreeze();
@@ -76,46 +76,10 @@ public class Totem : MonoBehaviour {
             prevHumansSize=tribe.GetComponent<Tribe>().Humans.Count;
        }
     }
-    void RunCircle()
-    {
-        foreach(GameObject point in points)
-        {
-            Vector3 circleTarget=new Vector3(point.transform.position. x+ (float)Mathf.Cos(circleIteration)*circleRadius,point.transform.position.y,point.transform.position.z+(float)(Mathf.Sin(circleIteration)*circleRadius));
-            if(Mathf.Abs(circleTarget.x-transform.position.x)+Mathf.Abs(circleTarget.z-transform.position.z)>=0.1)
-            {
-            }else
-            {
-                point.transform.position=circleTarget;
-            }
-            point.transform.position=Vector3.MoveTowards(transform.position,circleTarget,Time.deltaTime);
-        }
-        if (true)
-        {
-            Vector3 circleTarget=new Vector3(transform.position. x+ (float)Mathf.Cos(circleIteration)*circleRadius,transform.position.y,transform.position.z+(float)(Mathf.Sin(circleIteration)*circleRadius));
-            if(Mathf.Abs(circleTarget.x-transform.position.x)+Mathf.Abs(circleTarget.z-transform.position.z)>=0.1)
-            {
-                //this will detect if human didnt take is positiion in circle
-            }else
-            {
-                //if human took his position
-                transform.position=circleTarget;
-                //fromTotem=true;
-            }
-            transform.position=Vector3.MoveTowards(transform.position,circleTarget,Time.deltaTime);
-        }
-        if (circleIteration <= Mathf.PI*2)
-        {
-            circleIteration+=0.01f;
-        }
-        else
-        {
-            circleIteration = 0f;
-        }
-    }
     public void PointUpdate()
     {
         float pos = Mathf.PI*2/tribe.GetComponent<Tribe>().Humans.Count;
-        print(pos.ToString());
+        //print(pos.ToString());
         circleIteration= tribe.GetComponent<Tribe>().Humans.IndexOf(gameObject)*pos;
     }
     public void Freeze()
