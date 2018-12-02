@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System;
 
 public class ri : MonoBehaviour
@@ -113,7 +113,7 @@ public class ri : MonoBehaviour
                     target.z= hit.point.z;
                     if (hit.collider.isTrigger)
                     {
-                        print(hit.collider.name);
+                        //print(hit.collider.name);
                         target.x= hit.collider.gameObject.transform.position.x;
                         target.y= 0.03000009f;
                         target.z= hit.collider.gameObject.transform.position.z;
@@ -140,6 +140,9 @@ public class ri : MonoBehaviour
                         }
                         toGate=true;
                         totem.GetComponent<Totem>().Unfreeze();
+                    }else
+                    {
+
                     }
                     if (hit.collider.gameObject.Equals(GameObject.Find("RightProtoGate")))
                     {
@@ -165,6 +168,22 @@ public class ri : MonoBehaviour
                         toGate=true;
                         //Invoke()
                         totem.GetComponent<Totem>().Unfreeze();
+                    }
+                    if (hit.collider.gameObject.Equals(GameObject.Find("Totem")))
+                    {
+                        //Invoke()
+                        toGate=false;
+                        reachingTarget=false;
+                        onGround=true;
+                        totem.GetComponent<Totem>().Unfreeze();
+                    }
+                    if (hit.collider.gameObject.Equals(GameObject.Find("Plane")))
+                    {
+                        toGate=false;
+                        reachingTarget=false;
+                        onGround=true;
+                        totem.GetComponent<Totem>().Unfreeze();
+                        target=transform.position;
                     }
                 }
                 grabbed = false;
@@ -237,7 +256,7 @@ public class ri : MonoBehaviour
         {
             fromTotem=false;
             onGate=true;
-            collision.gameObject.GetComponent<Gate>().caravan.Add(gameObject);
+            collision.gameObject.GetComponent<Gate>().AddNewHuman(gameObject);
             if(humanClass==null||humanClass=="")
             {
                 humanClass="gatherer";
@@ -321,7 +340,7 @@ public class ri : MonoBehaviour
                 reachingTarget=false;
                 if(currentGate.Equals(GameObject.Find("LeftProtoGate")))
                 {
-                    target=GameObject.Find("LeftProtoGate").transform.position;
+                    //target=GameObject.Find("LeftProtoGate").transform.position;
                     currentGate=null;
                     reachingTarget=true;
                     onGround=false;
@@ -354,8 +373,13 @@ public class ri : MonoBehaviour
             if (!human.Equals(gameObject))
             {
                 tribe.GetComponent<Tribe>().Humans.Add(human);
+                human.GetComponent<ri>().fu =tribe.GetComponent<Tribe>().Humans.IndexOf(human);
             }
         }
         Destroy(gameObject,0.1f);
+    }
+    public void SetTarget(Vector3 newTarget)
+    {
+        target=newTarget;
     }
 }

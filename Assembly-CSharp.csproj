@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Gate.cs" />
+     <Compile Include="Assets\Scripts\light.cs" />
      <Compile Include="Assets\Scripts\point.cs" />
      <Compile Include="Assets\Scripts\ResourcesScr.cs" />
      <Compile Include="Assets\Scripts\ri.cs" />

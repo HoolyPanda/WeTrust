@@ -51,7 +51,7 @@ public class point : MonoBehaviour {
     public void Unfreeze()
     {
         positios = Mathf.PI*2/tribe.GetComponent<Tribe>().Humans.Count;
-        print(positios.ToString());
+        //print(positios.ToString());
         circleIteration= pos*positios;
     }
 }

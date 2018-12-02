@@ -68,7 +68,7 @@ public class Totem : MonoBehaviour {
                 }
                 else
                 {
-                    cPoint.GetComponent<point>().circleRadius=0.25f*tribe.GetComponent<Tribe>().Humans.Count; 
+                    cPoint.GetComponent<point>().circleRadius=0.1f*tribe.GetComponent<Tribe>().Humans.Count; 
                 } 
                 cPoint.GetComponent<point>().pos=points.IndexOf(cPoint);
                 cPoint.GetComponent<point>().Unfreeze();

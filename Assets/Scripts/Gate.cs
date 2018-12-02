@@ -9,12 +9,14 @@ public class Gate : MonoBehaviour {
     public GameObject totem;
     public GameObject gate;
     public List<GameObject> caravan= new List<GameObject>();
+    public List<GameObject> positions=new List<GameObject>();
+    bool[] satisfyed = new bool[5];
     int neededHunters;
     int neededTraders;
     int neededGatheres;
     public int expeditionsToPass;
     public int goneExpeditions=0;
-    public List<GameObject> ligths=new List<GameObject>();
+    public List<GameObject> ligths = new List<GameObject>();
     void Start () 
     {
         ligths.Add(GameObject.Find(name+"/gate/Gate_L1"));
@@ -22,12 +24,16 @@ public class Gate : MonoBehaviour {
         ligths.Add(GameObject.Find(name+"/gate/Gate_L3"));
         ligths.Add(GameObject.Find(name+"/gate/Gate_L4"));
         ligths.Add(GameObject.Find(name+"/gate/Gate_L5")); 
+        positions.Add(GameObject.Find(name+"/point"));
+        positions.Add(GameObject.Find(name+"/point (1)"));
+        positions.Add(GameObject.Find(name+"/point (2)"));
+        positions.Add(GameObject.Find(name+"/point (3)"));
+        positions.Add(GameObject.Find(name+"/point (4)"));
         expeditionsToPass=Random.Range(5,15);
         foreach (GameObject light in ligths)
         {
-            light.GetComponent<MeshRenderer>().material.color=Color.white;
+            light.GetComponent<light>().Reset();
         }
-        //gate.Find("Gate_L1").etComponent<MeshRenderer>().material.color=Color.red;
     }
     void Update () 
     {
@@ -50,11 +56,11 @@ public class Gate : MonoBehaviour {
     }
     public void SendCaravan()
     {
-        if(caravan.Count >0)
+        if(caravan.Count >0&&CheckQuest())
         {
             foreach(GameObject light in ligths)
             {
-                light.GetComponent<MeshRenderer>().material.color=Color.white;
+                light.GetComponent<light>().Reset();
             }
             foreach (GameObject human in caravan)
             {
@@ -120,6 +126,8 @@ public class Gate : MonoBehaviour {
         {
             if(neededHunters!=0)
             {
+                ligths[i].GetComponent<light>().requeredClass="hunter";
+                ligths[i].GetComponent<light>().satisfyed=false;
                 ligths[i].GetComponent<MeshRenderer>().material.color=Color.red;
                 i++;
             }
@@ -128,6 +136,8 @@ public class Gate : MonoBehaviour {
         {
             if(neededTraders!=0)
             {
+                ligths[i].GetComponent<light>().requeredClass="trader";
+                ligths[i].GetComponent<light>().satisfyed=false;
                 ligths[i].GetComponent<MeshRenderer>().material.color=Color.yellow;
                 i++;
             }
@@ -136,11 +146,12 @@ public class Gate : MonoBehaviour {
         {
             if (neededGatheres!=0)
             {
+                ligths[i].GetComponent<light>().requeredClass="gatherer";
+                ligths[i].GetComponent<light>().satisfyed=false;
                 ligths[i].GetComponent<MeshRenderer>().material.color=Color.green;
                 i++;
             }
         }
-        
         print ("Need "+neededHunters.ToString()+" Hunters "+neededGatheres.ToString()+" Gatherers "+neededTraders.ToString()+" Taders at "+gameObject.name);
     }
     void CheckIncomingHuman()
@@ -178,9 +189,34 @@ public class Gate : MonoBehaviour {
     void CreateNewHuman()
     {
         GameObject newHuman = Instantiate(simpleHuman,new Vector3(-4.6f,0.02043986f,-2.72f),Quaternion.identity);
-        //newHuman.transform.parent=GameObject.Find("humans").transform;
         newHuman.GetComponent<ri>().totem=totem;
         newHuman.GetComponent<ri>().tribe=tribe;
         tribe.GetComponent<Tribe>().Humans.Add(newHuman);
+    }
+    bool CheckQuest()
+    {
+        foreach (GameObject human in caravan)
+        {
+            foreach (var light in ligths)
+            {
+                if (light.GetComponent<light>().requeredClass==human.GetComponent<ri>().humanClass&&!light.GetComponent<light>().satisfyed)
+                {
+                    light.GetComponent<light>().satisfyed=true;
+                }
+            }
+        }
+        foreach (var light in ligths)
+        {
+            if (!light.GetComponent<light>().satisfyed)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    public void AddNewHuman(GameObject newCaravaner)
+    {
+        caravan.Add(newCaravaner);
+        newCaravaner.GetComponent<ri>().SetTarget(positions[caravan.IndexOf(newCaravaner)].transform.position);
     }
 }
