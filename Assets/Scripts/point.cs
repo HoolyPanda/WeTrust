@@ -23,10 +23,12 @@ public class point : MonoBehaviour
     {
 
     }
+
     private void FixedUpdate()
     {
         RunCircle();
     }
+
     void RunCircle()
     {
         if (!freezed)
@@ -52,6 +54,7 @@ public class point : MonoBehaviour
             }
         }
     }
+
     public void Unfreeze()
     {
         positios = Mathf.PI * 2 / tribe.GetComponent<Tribe>().Humans.Count;

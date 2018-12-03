@@ -9,6 +9,7 @@ public class ri : MonoBehaviour
     public GameObject currentGate = null;
     public GameObject tribe;
     public GameObject totem;
+
     public string humanName = "Todd";
     public int minusMeat = 1;
     public int minusGold = 1;
@@ -16,41 +17,9 @@ public class ri : MonoBehaviour
     public int plusFaith = 5;
     public int level = 1;
     public int plusMeat;
-    public int PlusMeat
-    {
-        get
-        {
-            return plusMeat * level;
-        }
-        set
-        {
-            plusMeat = value;
-        }
-    }
     private int plusGold;
-    public int PlusGold
-    {
-        get
-        {
-            return plusGold * level;
-        }
-        set
-        {
-            plusGold = value;
-        }
-    }
     private int plusWood;
-    public int PlusWood
-    {
-        get
-        {
-            return plusWood * level;
-        }
-        set
-        {
-            plusWood = value;
-        }
-    }
+
     public string humanClass = null;
     public bool onGate = false;
     public bool alive = true;
@@ -65,6 +34,43 @@ public class ri : MonoBehaviour
     Ray ray;
     Camera Camera;
     RaycastHit hit;
+
+    public int PlusMeat
+    {
+        get
+        {
+            return plusMeat * level;
+        }
+        set
+        {
+            plusMeat = value;
+        }
+    }
+
+    public int PlusGold
+    {
+        get
+        {
+            return plusGold * level;
+        }
+        set
+        {
+            plusGold = value;
+        }
+    }
+
+    public int PlusWood
+    {
+        get
+        {
+            return plusWood * level;
+        }
+        set
+        {
+            plusWood = value;
+        }
+    }
+    
     void Start()
     {
         HumansBody = GetComponent<Rigidbody>();
@@ -74,6 +80,7 @@ public class ri : MonoBehaviour
         fu = tribe.GetComponent<Tribe>().Humans.IndexOf(this.gameObject);
         Unfreeze();
     }
+
     void Update()
     {
         if (!alive)
@@ -81,6 +88,7 @@ public class ri : MonoBehaviour
             Invoke("Death", 0f);
         }
     }
+
     private void FixedUpdate()
     {
         if (Input.touchCount > 0)
@@ -205,10 +213,7 @@ public class ri : MonoBehaviour
                     }
                 }
             }
-            if (grabbed)
-            {//UBO
-            }
-            else
+            if (!grabbed)
             {
                 RunCircle();
             }
@@ -219,6 +224,7 @@ public class ri : MonoBehaviour
         }
         ReachPoint();
     }
+
     void RunCircle()
     {
         if (onGround && !onGate)
@@ -236,6 +242,7 @@ public class ri : MonoBehaviour
             }
         }
     }
+
     private void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.tag == "Gate")
@@ -254,6 +261,7 @@ public class ri : MonoBehaviour
             }
         }
     }
+
     private void OnTriggerExit(Collider collision)
     {
         if (true)
@@ -264,6 +272,7 @@ public class ri : MonoBehaviour
         }
         humanName = "Todd";
     }
+
     void OnCollisionEnter(Collision collision)
     {
         if ((collision.gameObject.name == "Plane") && !onGate)
@@ -273,6 +282,7 @@ public class ri : MonoBehaviour
             tribe = collision.gameObject;
         }
     }
+
     void OnCollisionStay(Collision collision)
     {
         if ((collision.gameObject.name == "Plane") && !onGate)
@@ -281,6 +291,7 @@ public class ri : MonoBehaviour
 
         }
     }
+
     void OnCollisionExit(Collision collision)
     {
         if ((collision.gameObject.name == "Plane") && !onGate)
@@ -288,6 +299,7 @@ public class ri : MonoBehaviour
             onGround = false;
         }
     }
+
     void DoMinusResourses()
     {
         tribe.GetComponent<Tribe>().Meat -= minusMeat;
@@ -296,6 +308,7 @@ public class ri : MonoBehaviour
         tribe.GetComponent<Tribe>().Faith += plusFaith;
         gettingResourses = false;
     }
+
     public void DoPlusResourses()
     {
         if (tribe != null)
@@ -305,10 +318,12 @@ public class ri : MonoBehaviour
             tribe.GetComponent<Tribe>().Wood += PlusWood;
         }
     }
+
     public void Unfreeze()
     {
         onGate = false;
     }
+
     void ReachPoint()
     {
         if (!transform.position.Equals(target) && reachingTarget)
@@ -338,6 +353,7 @@ public class ri : MonoBehaviour
             }
         }
     }
+
     void GetOnGround()
     {
         if (!onGate && !reachingTarget && !grabbed)
@@ -345,6 +361,7 @@ public class ri : MonoBehaviour
             onGround = true;
         }
     }
+
     void Death()
     {
         tribe.GetComponent<Tribe>().Humans = new List<GameObject>(GameObject.FindGameObjectsWithTag("Human").Length);
@@ -362,6 +379,7 @@ public class ri : MonoBehaviour
         }
         Destroy(gameObject, 0.1f);
     }
+
     public void SetTarget(Vector3 newTarget)
     {
         target = newTarget;

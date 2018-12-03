@@ -11,6 +11,7 @@ public class Totem : MonoBehaviour
     public float circleIteration = 0f;
     float circleRadius = 2f;
     int prevHumansSize;
+
     void Start()
     {
         prevHumansSize = tribe.GetComponent<Tribe>().Humans.Count;
@@ -20,6 +21,7 @@ public class Totem : MonoBehaviour
             point.GetComponent<point>().Unfreeze();
         }
     }
+
     void Update()
     {
         if (prevHumansSize < tribe.GetComponent<Tribe>().Humans.Count)
@@ -77,12 +79,14 @@ public class Totem : MonoBehaviour
             prevHumansSize = tribe.GetComponent<Tribe>().Humans.Count;
         }
     }
+
     public void PointUpdate()
     {
         float pos = Mathf.PI * 2 / tribe.GetComponent<Tribe>().Humans.Count;
         //print(pos.ToString());
         circleIteration = tribe.GetComponent<Tribe>().Humans.IndexOf(gameObject) * pos;
     }
+
     public void Freeze()
     {
         foreach (GameObject point in points)
@@ -90,10 +94,12 @@ public class Totem : MonoBehaviour
             point.GetComponent<point>().freezed = true;
         }
     }
+
     public void Unfreeze()
     {
         Invoke("__unfreeze", 2f);
     }
+
     void __unfreeze()
     {
         foreach (GameObject point in points)
@@ -101,6 +107,7 @@ public class Totem : MonoBehaviour
             point.GetComponent<point>().freezed = false;
         }
     }
+
     void CreateNewPoint()
     {
         GameObject npoint = Instantiate(newPoint, transform.position, Quaternion.identity);
