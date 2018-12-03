@@ -14,5 +14,6 @@ public class ResourcesScr : MonoBehaviour {
         GameObject.Find("GoldAmount").GetComponent<Text>().text=tribe.GetComponent<Tribe>().Gold.ToString();
         GameObject.Find("MeatAmount").GetComponent<Text>().text=tribe.GetComponent<Tribe>().Meat.ToString();
         GameObject.Find("WoodAmount").GetComponent<Text>().text=tribe.GetComponent<Tribe>().Wood.ToString();
+        GameObject.Find("FaithAmount").GetComponent<Text>().text=tribe.GetComponent<Tribe>().Faith.ToString();
     }
 }
