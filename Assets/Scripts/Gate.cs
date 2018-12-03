@@ -4,23 +4,27 @@ using UnityEngine;
 
 public class Gate : MonoBehaviour
 {
-    public string neededClass = null;
-    public GameObject tribe;
-    public GameObject simpleHuman;
-    public GameObject totem;
-    public GameObject gate;
-    public Material gateClassColor;
-    public List<GameObject> caravan = new List<GameObject>();
-    public List<GameObject> positions = new List<GameObject>();
-    public List<string> quest = new List<string>();
-    public int minusFaith;
-    bool[] satisfyed = new bool[5];
     int neededHunters;
     int neededTraders;
     int neededGatheres;
+    public int minusFaith;
     public int expeditionsToPass;
     public int goneExpeditions = 0;
+    public string neededClass = null;
+
+    public GameObject gate;
+    public GameObject tribe;
+    public GameObject totem;
+    public GameObject simpleHuman;
+    public Material gateClassColor;
+
+    public List<string> quest = new List<string>();
     public List<GameObject> ligths = new List<GameObject>();
+    public List<GameObject> caravan = new List<GameObject>();
+    public List<GameObject> positions = new List<GameObject>();
+
+    bool[] satisfyed = new bool[5];
+    
     void Start()
     {
         ligths.Add(GameObject.Find(name + "/gate/Gate_L1"));
@@ -28,17 +32,21 @@ public class Gate : MonoBehaviour
         ligths.Add(GameObject.Find(name + "/gate/Gate_L3"));
         ligths.Add(GameObject.Find(name + "/gate/Gate_L4"));
         ligths.Add(GameObject.Find(name + "/gate/Gate_L5"));
+
         positions.Add(GameObject.Find(name + "/point"));
         positions.Add(GameObject.Find(name + "/point (1)"));
         positions.Add(GameObject.Find(name + "/point (2)"));
         positions.Add(GameObject.Find(name + "/point (3)"));
         positions.Add(GameObject.Find(name + "/point (4)"));
+
         expeditionsToPass = Random.Range(5, 15);
+
         foreach (GameObject light in ligths)
         {
             light.GetComponent<light>().Reset();
         }
     }
+
     void Update()
     {
         if (Input.touchCount > 0)
@@ -58,6 +66,7 @@ public class Gate : MonoBehaviour
             }
         }
     }
+
     public void SendCaravan()
     {
         if (caravan.Count > 0 && CheckQuest())
@@ -80,6 +89,7 @@ public class Gate : MonoBehaviour
             Invoke("ReturnCaravan", 5f);
         }
     }
+
     void ReturnCaravan()
     {
         foreach (GameObject human in caravan)
@@ -106,6 +116,7 @@ public class Gate : MonoBehaviour
         goneExpeditions++;
         CheckIncomingHuman();
     }
+
     void GenerateEvent()
     {
         //min(5,hunters)
@@ -130,6 +141,7 @@ public class Gate : MonoBehaviour
         }
         print("Need " + neededHunters.ToString() + " Hunters " + neededGatheres.ToString() + " Gatherers " + neededTraders.ToString() + " Taders at " + gameObject.name);
     }
+
     List<string> __FillQuest(int h, int g, int t)//complete later for current moment dead code
     {
         List<string> nq = new List<string>();
@@ -206,6 +218,7 @@ public class Gate : MonoBehaviour
         }
         return nq;
     }
+
     void CheckIncomingHuman()
     {
         int Meat = tribe.GetComponent<Tribe>().Meat;
@@ -239,6 +252,7 @@ public class Gate : MonoBehaviour
             CreateNewHuman();
         }
     }
+
     void CreateNewHuman()
     {
         GameObject newHuman = Instantiate(simpleHuman, new Vector3(-4.6f, 0.02043986f, -2.72f), Quaternion.identity);
@@ -246,6 +260,7 @@ public class Gate : MonoBehaviour
         newHuman.GetComponent<ri>().tribe = tribe;
         tribe.GetComponent<Tribe>().Humans.Add(newHuman);
     }
+
     bool CheckQuest()
     {
         foreach (var light in ligths)
@@ -272,6 +287,7 @@ public class Gate : MonoBehaviour
         }
         return true;
     }
+
     void TCheck(int index)//taste later
     {
         if (!ligths[index].GetComponent<light>().satisfyed)
@@ -285,6 +301,7 @@ public class Gate : MonoBehaviour
             }
         }
     }
+
     public void AddNewHuman(GameObject newCaravaner)
     {
         //caravan.Add(newCaravaner);
@@ -304,6 +321,7 @@ public class Gate : MonoBehaviour
             newCaravaner.GetComponent<ri>().SetTarget(positions[caravan.IndexOf(newCaravaner)].transform.position);
         }
     }
+
     public void RemoveCaravaner(GameObject rmCaravaner)
     {
         caravan[caravan.IndexOf(rmCaravaner)] = null;
@@ -320,6 +338,7 @@ public class Gate : MonoBehaviour
             caravan = new List<GameObject>();
         }
     }
+
     public void InitializeNewHuman()
     {
         switch (neededClass)
@@ -337,6 +356,7 @@ public class Gate : MonoBehaviour
                 break;
         }
     }
+
     public int InitMeat()
     {
         switch (neededClass)
@@ -347,6 +367,7 @@ public class Gate : MonoBehaviour
                 return 5;
         }
     }
+
     public int InitGold()
     {
         switch (neededClass)
@@ -357,6 +378,7 @@ public class Gate : MonoBehaviour
                 return 5;
         }
     }
+
     public int InitWood()
     {
         switch (neededClass)

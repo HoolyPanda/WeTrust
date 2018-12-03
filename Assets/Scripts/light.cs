@@ -26,12 +26,14 @@ public class light : MonoBehaviour
             //GetComponent<MeshRenderer>().material.color=prevColor;
         }
     }
+
     public void Reset()
     {
         GetComponent<MeshRenderer>().material.color = Color.white;
         prevColor = GetComponent<MeshRenderer>().material.color;
         satisfyed = true;
     }
+
     public void SetLight(string clss)
     {
         requeredClass = clss;
